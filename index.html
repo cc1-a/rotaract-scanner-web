@@ -110,6 +110,7 @@
         }
         .result-card.success { border-color: #22c55e; background: rgba(22, 163, 74, 0.1); }
         .result-card.error { border-color: #ef4444; background: rgba(220, 38, 38, 0.1); }
+        .result-card.warning { border-color: #f59e0b; background: rgba(245, 158, 11, 0.1); }
         
         .result-icon { font-size: 32px; margin-bottom: 8px; }
         .result-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
@@ -236,17 +237,24 @@
             resName.innerText = data.name || 'Unknown';
             resClub.innerText = data.club || '';
             
-            // Success
+            // Success / Duplicate / Error handling
             if (data.status === 'success') {
-                resultCard.className = 'result-card success';
-                resTitle.style.color = '#4ade80';
-                resIcon.innerText = '✅';
-                resTitle.innerText = 'Check-in Successful';
+                if (data.duplicate) {
+                    resultCard.className = 'result-card warning';
+                    resTitle.style.color = '#f59e0b';
+                    resIcon.innerText = '⚠️';
+                    resTitle.innerText = 'Already Checked In';
+                } else {
+                    resultCard.className = 'result-card success';
+                    resTitle.style.color = '#4ade80';
+                    resIcon.innerText = '✅';
+                    resTitle.innerText = 'Check-in Successful';
+                }
             } else {
                 resultCard.className = 'result-card error';
                 resTitle.style.color = '#f87171';
-                resIcon.innerText = '⚠️';
-                resTitle.innerText = data.message || 'Error';
+                resIcon.innerText = '❌';
+                resTitle.innerText = data.message || data.error || 'Error';
             }
 
             // Meal
