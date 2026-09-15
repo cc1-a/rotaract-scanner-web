@@ -278,12 +278,18 @@
             }
 
             try {
-                const reqUrl = `${GAS_URL}?id=${encodeURIComponent(decodedText)}`;
-                const response = await fetch(reqUrl);
+                // Use POST with urlencoded data to bypass CORS and populate e.parameter in GAS
+                const response = await fetch(GAS_URL, {
+                    method: 'POST',
+                    body: new URLSearchParams({ id: decodedText }),
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                });
+                
+                // GAS redirects POST requests, which fetch handles, but we need to parse the final JSON
                 const data = await response.json();
                 showResult(data);
             } catch (err) {
-                showResult({ status: 'error', message: 'Network Error', name: decodedText });
+                showResult({ status: 'error', message: 'Network Error: ' + err.message, name: decodedText });
             }
         }
 
