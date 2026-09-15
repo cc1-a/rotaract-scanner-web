@@ -196,7 +196,7 @@
     </div>
 
     <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbz_s0Z7QJc9x4c-e35b7m8VzX1Nq7M_nOhU0oF-O8Xm0tQk1x4k_zW4M4b0x5J8J9Q/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbweBr0dhRkexJVMbahGBhOUB_iZkznrUGCC13ynlDq3Mbtp5r8XMIP5AnoYvdzzOEx-sg/exec";
         
         let isScanning = true;
         let html5QrcodeScanner = null;
@@ -278,15 +278,20 @@
             }
 
             try {
-                // Use POST with urlencoded data to bypass CORS and populate e.parameter in GAS
+                // Send as text/plain with JSON body to avoid CORS preflight (OPTIONS)
+                // Google Apps Script will parse this as JSON
                 const response = await fetch(GAS_URL, {
                     method: 'POST',
-                    body: new URLSearchParams({ id: decodedText }),
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                    body: JSON.stringify({ qrData: decodedText }),
+                    headers: { 'Content-Type': 'text/plain' }
                 });
                 
-                // GAS redirects POST requests, which fetch handles, but we need to parse the final JSON
+                // GAS redirects POST requests to a GET request with the result
                 const data = await response.json();
+                
+                // Map the backend's 'success' boolean to 'status' string so showResult works correctly
+                data.status = data.success ? 'success' : 'error';
+                
                 showResult(data);
             } catch (err) {
                 showResult({ status: 'error', message: 'Network Error: ' + err.message, name: decodedText });
@@ -296,7 +301,8 @@
         // Initialize Camera
         function startCamera() {
             const html5QrCode = new Html5Qrcode("reader");
-            const config = { fps: 10, qrbox: { width: 250, height: 250 }, aspectRatio: 1.777778 };
+            // Removed qrbox to hide the default square overlay provided by the library
+            const config = { fps: 10, aspectRatio: 1.777778 };
             
             html5QrCode.start(
                 { facingMode: "environment" }, 
