@@ -1,0 +1,6 @@
+{
+  "appId": "com.rotaract.qrscanner",
+  "appName": "QR Check-In",
+  "webDir": "public",
+  "bundledWebRuntime": false
+}

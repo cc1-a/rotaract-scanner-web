@@ -107,6 +107,15 @@
             margin-bottom: 20px;
             display: none;
             pointer-events: auto;
+            /* Smooth animations */
+            opacity: 0;
+            transform: scale(0.95) translateY(10px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .result-card.show {
+            display: block;
+            opacity: 1;
+            transform: scale(1) translateY(0);
         }
         .result-card.success { border-color: #22c55e; background: rgba(22, 163, 74, 0.1); }
         .result-card.error { border-color: #ef4444; background: rgba(220, 38, 38, 0.1); }
@@ -136,13 +145,31 @@
             background: rgba(0,0,0,0.6);
             padding: 8px 16px;
             border-radius: 20px;
+            transition: background 0.3s ease;
         }
+        
+        /* Pulse Animation for Status Dot */
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1.2); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+        @keyframes pulse-loading {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            70% { transform: scale(1.2); box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
+
         .status-dot {
             width: 8px; height: 8px;
             border-radius: 4px;
             background: #22c55e;
+            animation: pulse 2s infinite;
         }
-        .status-dot.loading { background: #f59e0b; }
+        .status-dot.loading { 
+            background: #f59e0b; 
+            animation: pulse-loading 1.5s infinite;
+        }
         .status-text { font-size: 12px; font-weight: 600; color: white; }
 
         /* Hide html5-qrcode built-in UI elements */
@@ -216,17 +243,34 @@
         const resClub = document.getElementById('res-club');
         const resMeal = document.getElementById('res-meal');
 
+        function triggerVibration(pattern) {
+            if (navigator.vibrate) {
+                navigator.vibrate(pattern);
+            }
+        }
+
         function setStatus(state) {
             if (state === 'READY') {
                 statusDot.className = 'status-dot';
                 statusText.innerText = 'Ready to scan';
                 hintText.innerText = 'Point at QR code';
+                
                 middleSection.style.display = 'flex';
-                resultCard.style.display = 'none';
+                // Trigger reflow to restart CSS animation smoothly if needed
+                void middleSection.offsetWidth;
+                
+                resultCard.classList.remove('show');
+                setTimeout(() => {
+                    if(resultCard.classList.contains('show') === false) {
+                        resultCard.style.display = 'none';
+                    }
+                }, 300); // Wait for fade out
+                
             } else if (state === 'LOADING') {
                 statusDot.className = 'status-dot loading';
                 statusText.innerText = 'Processing...';
                 hintText.innerText = '⏳ Checking in...';
+                triggerVibration(50); // Small haptic bump
             }
         }
 
@@ -234,27 +278,35 @@
             middleSection.style.display = 'none';
             resultCard.style.display = 'block';
             
+            // Allow display: block to apply before adding the 'show' class for the transition
+            setTimeout(() => {
+                resultCard.classList.add('show');
+            }, 10);
+            
             resName.innerText = data.name || 'Unknown';
             resClub.innerText = data.club || '';
             
             // Success / Duplicate / Error handling
             if (data.status === 'success') {
                 if (data.duplicate) {
-                    resultCard.className = 'result-card warning';
+                    resultCard.className = 'result-card warning show';
                     resTitle.style.color = '#f59e0b';
                     resIcon.innerText = '⚠️';
                     resTitle.innerText = 'Already Checked In';
+                    triggerVibration([100, 50, 100]); // Warning vibration
                 } else {
-                    resultCard.className = 'result-card success';
+                    resultCard.className = 'result-card success show';
                     resTitle.style.color = '#4ade80';
                     resIcon.innerText = '✅';
                     resTitle.innerText = 'Check-in Successful';
+                    triggerVibration(200); // Success vibration
                 }
             } else {
-                resultCard.className = 'result-card error';
+                resultCard.className = 'result-card error show';
                 resTitle.style.color = '#f87171';
                 resIcon.innerText = '❌';
                 resTitle.innerText = data.message || data.error || 'Error';
+                triggerVibration([50, 50, 50, 50, 50]); // Error vibration
             }
 
             // Meal
@@ -286,18 +338,13 @@
             }
 
             try {
-                // Send as text/plain with JSON body to avoid CORS preflight (OPTIONS)
-                // Google Apps Script will parse this as JSON
                 const response = await fetch(GAS_URL, {
                     method: 'POST',
                     body: JSON.stringify({ qrData: decodedText }),
                     headers: { 'Content-Type': 'text/plain' }
                 });
                 
-                // GAS redirects POST requests to a GET request with the result
                 const data = await response.json();
-                
-                // Map the backend's 'success' boolean to 'status' string so showResult works correctly
                 data.status = data.success ? 'success' : 'error';
                 
                 showResult(data);
@@ -309,8 +356,8 @@
         // Initialize Camera
         function startCamera() {
             const html5QrCode = new Html5Qrcode("reader");
-            // Removed qrbox to hide the default square overlay provided by the library
-            const config = { fps: 10, aspectRatio: 1.777778 };
+            // Let the camera naturally fill the space instead of a forced aspect ratio
+            const config = { fps: 10, videoConstraints: { facingMode: "environment" } };
             
             html5QrCode.start(
                 { facingMode: "environment" }, 
