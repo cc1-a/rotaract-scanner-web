@@ -333,7 +333,7 @@
             setStatus('LOADING');
             
             // Validate QR
-            if (!decodedText.startsWith('REG-')) {
+            if (!decodedText.startsWith('REG-') && !decodedText.startsWith('WALK-')) {
                 showResult({ status: 'error', message: 'Invalid QR Code format', name: decodedText });
                 return;
             }
