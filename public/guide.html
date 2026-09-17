@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanner Guide & Walk-ins</title>
+    <style>
+        :root {
+            --primary: #790B29;
+            --gold: #F5C864;
+            --bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text-main); margin: 0; padding: 0; line-height: 1.6; }
+        
+        .header { background: #0f172a; padding: 16px 20px; display: flex; align-items: center; border-bottom: 1px solid #334155; position: sticky; top: 0; z-index: 100;}
+        .back-btn { background: #334155; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 14px;}
+        .header-title { flex-grow: 1; text-align: center; font-weight: 700; font-size: 16px; margin-right: 70px;}
+
+        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
+        
+        .card { background: #0f172a; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; }
+        h2 { margin-top: 0; color: var(--gold); font-size: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;}
+        p, li { font-size: 15px; color: #cbd5e1; margin-bottom: 10px; }
+        ul { padding-left: 20px; }
+
+        .qr-card { text-align: center; border: 2px dashed var(--gold); background: #1e293b;}
+        .qr-wrapper { background: white; padding: 15px; border-radius: 12px; display: inline-block; margin: 15px 0; }
+        .qr-wrapper img { width: 220px; height: 220px; display: block; }
+        .qr-title { color: white; font-weight: bold; font-size: 18px; margin-top: 5px;}
+        .qr-sub { color: var(--gold); font-size: 14px; margin-bottom: 10px; }
+
+        .btn-link { display: inline-block; background: var(--gold); color: #790B29; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; margin-top: 10px;}
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="index.html" class="back-btn">← Back</a>
+        <div class="header-title">Scanner Guide</div>
+    </div>
+
+    <div class="container">
+        
+        <div class="card qr-card">
+            <div class="qr-title">Walk-In Registration QR</div>
+            <div class="qr-sub">Show this to guests without tickets</div>
+            
+            <div class="qr-wrapper">
+                <img src="walkin_qr.png" alt="Walk-In Registration QR">
+            </div>
+            
+            <p style="font-size: 13px; color: #94a3b8;">Or guests can visit:</p>
+            <a href="https://script.google.com/macros/s/AKfycbwt0eILvctWP9OPiTycFYLTpk4AhImUr5cPxUYeYLjJqJrEsX2pYPJggS1y75fHqRAV/exec" target="_blank" class="btn-link">Open Registration Form</a>
+        </div>
+
+        <div class="card">
+            <h2>🎟️ Pre-Registered Guests</h2>
+            <ul>
+                <li>Point your scanner at the QR code on their ticket or phone.</li>
+                <li>Wait for the <strong>Green Checkmark</strong> and vibration.</li>
+                <li>Verify their name and Meal preference on the screen.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🚶 Walk-In Guests</h2>
+            <ul>
+                <li>Ask them to scan the <strong>Gold Walk-in QR Code</strong> above using their phone's camera.</li>
+                <li>They will be prompted to enter their Name, Phone, and Club.</li>
+                <li>Once they submit, a dynamic QR code will appear on <em>their</em> screen.</li>
+                <li>Point your scanner at their screen to officially check them in!</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>⚠️ Troubleshooting</h2>
+            <ul>
+                <li><strong>Already Checked In:</strong> If the screen turns yellow, the guest has already been scanned. Do not give them a second meal/kit.</li>
+                <li><strong>Invalid Format:</strong> The guest scanned a random QR code, not the event ticket.</li>
+            </ul>
+        </div>
+
+    </div>
+
+</body>
+</html>
