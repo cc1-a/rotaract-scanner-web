@@ -21,9 +21,12 @@
         .container { padding: 20px; max-width: 600px; margin: 0 auto; }
         
         .card { background: #0f172a; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; }
-        h2 { margin-top: 0; color: var(--gold); font-size: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;}
-        p, li { font-size: 15px; color: #cbd5e1; margin-bottom: 10px; }
-        ul { padding-left: 20px; }
+        h2 { margin-top: 0; color: var(--gold); font-size: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #1e293b; padding-bottom: 8px;}
+        
+        /* Clear numbered lists */
+        ol { padding-left: 20px; margin-top: 10px; }
+        li { font-size: 15px; color: #cbd5e1; margin-bottom: 15px; }
+        strong { color: white; font-size: 16px; }
 
         .qr-card { text-align: center; border: 2px dashed var(--gold); background: #1e293b;}
         .qr-wrapper { background: white; padding: 15px; border-radius: 12px; display: inline-block; margin: 15px 0; }
@@ -38,7 +41,7 @@
 
     <div class="header">
         <a href="index.html" class="back-btn">← Back</a>
-        <div class="header-title">Scanner Guide</div>
+        <div class="header-title">Volunteer Guide</div>
     </div>
 
     <div class="container">
@@ -57,28 +60,28 @@
 
         <div class="card">
             <h2>🎟️ Pre-Registered Guests</h2>
-            <ul>
-                <li>Point your scanner at the QR code on their ticket or phone.</li>
-                <li>Wait for the <strong>Green Checkmark</strong> and vibration.</li>
-                <li>Verify their name and Meal preference on the screen.</li>
-            </ul>
+            <ol>
+                <li><strong>Scan their Ticket:</strong> Point your camera at the QR code on their phone or printed ticket.</li>
+                <li><strong>Wait for Green:</strong> Look for the ✅ Green Checkmark and wait for the phone to vibrate.</li>
+                <li><strong>Verify Meal:</strong> Check their screen for Veg 🥗 or Non-Veg 🍗 and hand them the correct food token.</li>
+            </ol>
         </div>
 
         <div class="card">
-            <h2>🚶 Walk-In Guests</h2>
-            <ul>
-                <li>Ask them to scan the <strong>Gold Walk-in QR Code</strong> above using their phone's camera.</li>
-                <li>They will be prompted to enter their Name, Phone, and Club.</li>
-                <li>Once they submit, a dynamic QR code will appear on <em>their</em> screen.</li>
-                <li>Point your scanner at their screen to officially check them in!</li>
-            </ul>
+            <h2>🚶 Walk-In Guests (No Ticket)</h2>
+            <ol>
+                <li><strong>Guest Scans You:</strong> Show the "Walk-In QR" above and ask the guest to scan it with <i>their</i> phone camera.</li>
+                <li><strong>Guest Registers:</strong> The guest quickly types their Name, Phone, and Club into their phone.</li>
+                <li><strong>Guest Gets QR:</strong> A yellow 'WALK' QR code will instantly pop up on their screen.</li>
+                <li><strong>You Scan Guest:</strong> Point your scanner app at their new QR code to officially check them in!</li>
+            </ol>
         </div>
 
         <div class="card">
             <h2>⚠️ Troubleshooting</h2>
             <ul>
-                <li><strong>Already Checked In:</strong> If the screen turns yellow, the guest has already been scanned. Do not give them a second meal/kit.</li>
-                <li><strong>Invalid Format:</strong> The guest scanned a random QR code, not the event ticket.</li>
+                <li style="margin-bottom: 10px;"><strong>Already Checked In:</strong> If the screen turns yellow ⚠️, the guest has already been scanned. Do not give them a second meal token.</li>
+                <li style="margin-bottom: 0;"><strong>Invalid Format:</strong> The guest scanned a random QR code instead of the event ticket.</li>
             </ul>
         </div>
 
