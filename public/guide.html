@@ -235,71 +235,6 @@
         }
         .emergency-warning strong { color: #f87171; }
 
-        /* ── WhatsApp section ── */
-        .wa-card {
-            background: #0a1f14;
-            border: 1px solid #16a34a40;
-            border-radius: 14px;
-            padding: 20px;
-            margin-top: 8px;
-        }
-        .wa-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 14px;
-        }
-        .wa-icon {
-            font-size: 24px;
-            line-height: 1;
-        }
-        .wa-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #4ade80;
-        }
-        .wa-subtitle {
-            font-size: 12px;
-            color: #94a3b8;
-        }
-        .wa-preview {
-            background: #0d2818;
-            border: 1px solid #16a34a30;
-            border-radius: 10px;
-            padding: 14px;
-            font-size: 13px;
-            color: #a7f3d0;
-            line-height: 1.65;
-            margin-bottom: 14px;
-            white-space: pre-wrap;
-            font-family: inherit;
-        }
-        .btn-copy {
-            width: 100%;
-            background: #16a34a;
-            color: white;
-            border: none;
-            padding: 13px;
-            border-radius: 9px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: background 0.15s;
-        }
-        .btn-copy:hover { background: #15803d; }
-        .btn-copy.copied { background: #0d9488; }
-
-        /* ── Divider ── */
-        .divider {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin: 24px 0 8px;
-        }
-
         /* ── Arrow connector ── */
         .flow-arrow {
             text-align: center;
@@ -404,78 +339,8 @@
             </div>
         </div>
 
-        <hr class="divider">
-
-        <!-- WhatsApp Message -->
-        <div class="section-label">💬 Send to Your Team</div>
-
-        <div class="wa-card">
-            <div class="wa-header">
-                <span class="wa-icon">📲</span>
-                <div>
-                    <div class="wa-title">WhatsApp Message Draft</div>
-                    <div class="wa-subtitle">Copy and paste into the head table group</div>
-                </div>
-            </div>
-            <div class="wa-preview" id="wa-msg">Hey team! 👋 Here's the check-in process for tonight. Please follow this *exact order*:
-
-1️⃣ *QR Scanner (Primary)* – If the guest has a QR code, scan it with the scanner app.
-🔗 https://rotaract-scanner-web.vercel.app
-
-2️⃣ *App Script Tool (Secondary)* – No QR code? Search by name or phone, and manually check in or undo.
-🔗 https://script.google.com/macros/s/AKfycbweBr0dhRkexJVMbahGBhOUB_iZkznrUGCC13ynlDq3Mbtp5r8XMIP5AnoYvdzzOEx-sg/exec
-
-3️⃣ *Walk-In Registration* – Guest not registered at all? Show them the walk-in QR on the guide page so they can sign up on the spot.
-
-4️⃣ *Master Sheet (🚨 LAST RESORT ONLY)* – Only open with explicit approval from Sean or the VP.
-
-📋 Full guide with all links:
-🔗 https://rotaract-scanner-web.vercel.app/guide.html</div>
-            <button class="btn-copy" id="copy-btn" onclick="copyMessage()">
-                <span id="copy-icon">📋</span>
-                <span id="copy-text">Copy Message</span>
-            </button>
-        </div>
-
     </div>
-
-    <script>
-        function copyMessage() {
-            const msg = document.getElementById('wa-msg').innerText;
-            const btn = document.getElementById('copy-btn');
-            const icon = document.getElementById('copy-icon');
-            const text = document.getElementById('copy-text');
-
-            navigator.clipboard.writeText(msg).then(() => {
-                btn.classList.add('copied');
-                icon.innerText = '✅';
-                text.innerText = 'Copied!';
-                setTimeout(() => {
-                    btn.classList.remove('copied');
-                    icon.innerText = '📋';
-                    text.innerText = 'Copy Message';
-                }, 2500);
-            }).catch(() => {
-                // Fallback for older browsers / non-HTTPS contexts
-                const ta = document.createElement('textarea');
-                ta.value = msg;
-                ta.style.position = 'fixed';
-                ta.style.opacity = '0';
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand('copy');
-                document.body.removeChild(ta);
-                btn.classList.add('copied');
-                icon.innerText = '✅';
-                text.innerText = 'Copied!';
-                setTimeout(() => {
-                    btn.classList.remove('copied');
-                    icon.innerText = '📋';
-                    text.innerText = 'Copy Message';
-                }, 2500);
-            });
-        }
-    </script>
 
 </body>
 </html>
+
