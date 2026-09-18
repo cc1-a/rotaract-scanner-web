@@ -3,89 +3,479 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scanner Guide & Walk-ins</title>
+    <title>Head Table — Operations Guide</title>
     <style>
         :root {
             --primary: #790B29;
             --gold: #F5C864;
             --bg: #1e293b;
+            --surface: #0f172a;
+            --border: #334155;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
+            --text-sub: #cbd5e1;
+            --green: #22c55e;
+            --blue: #3b82f6;
+            --yellow: #f59e0b;
+            --red: #ef4444;
         }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text-main); margin: 0; padding: 0; line-height: 1.6; }
-        
-        .header { background: #0f172a; padding: 16px 20px; display: flex; align-items: center; border-bottom: 1px solid #334155; position: sticky; top: 0; z-index: 100;}
-        .back-btn { background: #334155; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 14px;}
-        .header-title { flex-grow: 1; text-align: center; font-weight: 700; font-size: 16px; margin-right: 70px;}
 
-        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
-        
-        .card { background: #0f172a; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; }
-        h2 { margin-top: 0; color: var(--gold); font-size: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #1e293b; padding-bottom: 8px;}
-        
-        /* Clear numbered lists */
-        ol { padding-left: 20px; margin-top: 10px; }
-        li { font-size: 15px; color: #cbd5e1; margin-bottom: 15px; }
-        strong { color: white; font-size: 16px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .qr-card { text-align: center; border: 2px dashed var(--gold); background: #1e293b;}
-        .qr-wrapper { background: white; padding: 15px; border-radius: 12px; display: inline-block; margin: 15px 0; }
-        .qr-wrapper img { width: 220px; height: 220px; display: block; }
-        .qr-title { color: white; font-weight: bold; font-size: 18px; margin-top: 5px;}
-        .qr-sub { color: var(--gold); font-size: 14px; margin-bottom: 10px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
 
-        .btn-link { display: inline-block; background: var(--gold); color: #790B29; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; margin-top: 10px;}
+        /* ── Header ── */
+        .header {
+            background: var(--surface);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .back-btn {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        .header-title {
+            flex-grow: 1;
+            text-align: center;
+            font-weight: 700;
+            font-size: 16px;
+            margin-right: 70px;
+        }
+        .header-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            margin-top: 2px;
+        }
+
+        /* ── Layout ── */
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ── Section label ── */
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin: 24px 0 10px 4px;
+        }
+        .section-label:first-of-type { margin-top: 8px; }
+
+        /* ── Priority Card ── */
+        .step-card {
+            background: var(--surface);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        /* Coloured left stripe per priority */
+        .step-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 12px; bottom: 12px;
+            width: 4px;
+            border-radius: 4px;
+        }
+        .step-card.green::before  { background: var(--green); }
+        .step-card.blue::before   { background: var(--blue); }
+        .step-card.yellow::before { background: var(--yellow); }
+        .step-card.red-card::before { background: var(--red); }
+
+        .step-head {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding-left: 12px;
+        }
+
+        .step-badge {
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 20px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .badge-green  { background: rgba(34,197,94,0.15);  color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+        .badge-blue   { background: rgba(59,130,246,0.15); color: #93c5fd; border: 1px solid rgba(59,130,246,0.3); }
+        .badge-yellow { background: rgba(245,158,11,0.15); color: #fcd34d; border: 1px solid rgba(245,158,11,0.3); }
+        .badge-red    { background: rgba(239,68,68,0.12);  color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
+
+        .step-info { flex: 1; }
+        .step-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+        .step-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        /* ── Action buttons ── */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gold);
+            color: #790B29;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 9px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: opacity 0.15s;
+        }
+        .btn-primary:hover { opacity: 0.88; }
+
+        .btn-blue {
+            background: rgba(59,130,246,0.18);
+            color: #93c5fd;
+            border: 1px solid rgba(59,130,246,0.35);
+        }
+        .btn-yellow {
+            background: rgba(245,158,11,0.15);
+            color: #fcd34d;
+            border: 1px solid rgba(245,158,11,0.35);
+        }
+        .btn-red-muted {
+            background: rgba(239,68,68,0.10);
+            color: #fca5a5;
+            border: 1px solid rgba(239,68,68,0.3);
+            font-size: 13px;
+            padding: 9px 16px;
+        }
+
+        /* ── Feature pills inside a card ── */
+        .feature-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+        .pill {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.07);
+            color: var(--text-sub);
+            border: 1px solid var(--border);
+        }
+
+        /* ── Walk-in QR ── */
+        .qr-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .qr-box {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .qr-box img {
+            width: 110px;
+            height: 110px;
+            display: block;
+        }
+        .qr-text {
+            flex: 1;
+            min-width: 160px;
+        }
+
+        /* ── Emergency warning box ── */
+        .emergency-warning {
+            background: rgba(239,68,68,0.08);
+            border: 1px solid rgba(239,68,68,0.25);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+            font-size: 13px;
+            color: #fca5a5;
+            line-height: 1.5;
+        }
+        .emergency-warning strong { color: #f87171; }
+
+        /* ── WhatsApp section ── */
+        .wa-card {
+            background: #0a1f14;
+            border: 1px solid #16a34a40;
+            border-radius: 14px;
+            padding: 20px;
+            margin-top: 8px;
+        }
+        .wa-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .wa-icon {
+            font-size: 24px;
+            line-height: 1;
+        }
+        .wa-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #4ade80;
+        }
+        .wa-subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        .wa-preview {
+            background: #0d2818;
+            border: 1px solid #16a34a30;
+            border-radius: 10px;
+            padding: 14px;
+            font-size: 13px;
+            color: #a7f3d0;
+            line-height: 1.65;
+            margin-bottom: 14px;
+            white-space: pre-wrap;
+            font-family: inherit;
+        }
+        .btn-copy {
+            width: 100%;
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.15s;
+        }
+        .btn-copy:hover { background: #15803d; }
+        .btn-copy.copied { background: #0d9488; }
+
+        /* ── Divider ── */
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 24px 0 8px;
+        }
+
+        /* ── Arrow connector ── */
+        .flow-arrow {
+            text-align: center;
+            font-size: 18px;
+            color: var(--text-muted);
+            margin: -4px 0;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <a href="index.html" class="back-btn">← Back</a>
-        <div class="header-title">Volunteer Guide</div>
+        <a href="index.html" class="back-btn">← Scanner</a>
+        <div>
+            <div class="header-title">Head Table Guide</div>
+            <div class="header-sub">Check-in Operations</div>
+        </div>
     </div>
 
     <div class="container">
-        
-        <div class="card qr-card">
-            <div class="qr-title">Walk-In Registration QR</div>
-            <div class="qr-sub">Show this to guests without tickets</div>
-            
-            <div class="qr-wrapper">
-                <img src="walkin_qr.png" alt="Walk-In Registration QR">
+
+        <div class="section-label">📋 Check-in — Follow This Order</div>
+
+        <!-- STEP 1: QR Scanner -->
+        <div class="step-card green">
+            <div class="step-head">
+                <span class="step-badge badge-green">STEP 1 · PRIMARY</span>
+                <div class="step-info">
+                    <div class="step-title">🔍 QR Scanner</div>
+                    <div class="step-desc">Default approach. If the attendee has a QR code on their phone or printed ticket — scan it.</div>
+                    <a href="index.html" class="btn-primary">
+                        Open Scanner App ↗
+                    </a>
+                </div>
             </div>
-            
-            <p style="font-size: 13px; color: #94a3b8;">Or guests can visit:</p>
-            <a href="https://script.google.com/macros/s/AKfycbwt0eILvctWP9OPiTycFYLTpk4AhImUr5cPxUYeYLjJqJrEsX2pYPJggS1y75fHqRAV/exec" target="_blank" class="btn-link">Open Registration Form</a>
         </div>
 
-        <div class="card">
-            <h2>🎟️ Pre-Registered Guests</h2>
-            <ol>
-                <li><strong>Scan their Ticket:</strong> Point your camera at the QR code on their phone or printed ticket.</li>
-                <li><strong>Wait for Green:</strong> Look for the ✅ Green Checkmark and wait for the phone to vibrate.</li>
-                <li><strong>Verify Meal:</strong> Check their screen for Veg 🥗 or Non-Veg 🍗 and hand them the correct food token.</li>
-            </ol>
+        <div class="flow-arrow">↓</div>
+
+        <!-- STEP 2: App Script -->
+        <div class="step-card blue">
+            <div class="step-head">
+                <span class="step-badge badge-blue">STEP 2 · SECONDARY</span>
+                <div class="step-info">
+                    <div class="step-title">📋 App Script Tool</div>
+                    <div class="step-desc">Attendee has no QR code. Use this to find them by name or phone number.</div>
+                    <div class="feature-pills">
+                        <span class="pill">🔎 Search by name / phone</span>
+                        <span class="pill">✅ Manual check-in</span>
+                        <span class="pill">↩️ Undo check-in</span>
+                    </div>
+                    <a href="https://script.google.com/macros/s/AKfycbweBr0dhRkexJVMbahGBhOUB_iZkznrUGCC13ynlDq3Mbtp5r8XMIP5AnoYvdzzOEx-sg/exec"
+                       target="_blank" class="btn-primary btn-blue">
+                        Open App Script ↗
+                    </a>
+                </div>
+            </div>
         </div>
 
-        <div class="card">
-            <h2>🚶 Walk-In Guests (No Ticket)</h2>
-            <ol>
-                <li><strong>Guest Scans You:</strong> Show the "Walk-In QR" above and ask the guest to scan it with <i>their</i> phone camera.</li>
-                <li><strong>Guest Registers:</strong> The guest quickly types their Name, Phone, and Club into their phone.</li>
-                <li><strong>Guest Gets QR:</strong> A yellow 'WALK' QR code will instantly pop up on their screen.</li>
-                <li><strong>You Scan Guest:</strong> Point your scanner app at their new QR code to officially check them in!</li>
-            </ol>
+        <div class="flow-arrow">↓</div>
+
+        <!-- STEP 3: Walk-In -->
+        <div class="step-card yellow">
+            <div class="step-head">
+                <span class="step-badge badge-yellow">STEP 3 · WALK-IN</span>
+                <div class="step-info">
+                    <div class="step-title">🚶 Walk-In Registration</div>
+                    <div class="step-desc">Attendee is <strong style="color: #fcd34d;">not registered at all.</strong> Show them this QR — they fill in their details on their phone and get a QR to scan.</div>
+                    <div class="qr-row">
+                        <div class="qr-box">
+                            <img src="walkin_qr.png" alt="Walk-In Registration QR">
+                        </div>
+                        <div class="qr-text">
+                            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Guest scans this → fills in name, phone, club → gets their own QR → you scan them in.</div>
+                            <a href="https://script.google.com/macros/s/AKfycbwt0eILvctWP9OPiTycFYLTpk4AhImUr5cPxUYeYLjJqJrEsX2pYPJggS1y75fHqRAV/exec"
+                               target="_blank" class="btn-primary btn-yellow">
+                                Open Walk-In Form ↗
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="card">
-            <h2>⚠️ Troubleshooting</h2>
-            <ul>
-                <li style="margin-bottom: 10px;"><strong>Already Checked In:</strong> If the screen turns yellow ⚠️, the guest has already been scanned. Do not give them a second meal token.</li>
-                <li style="margin-bottom: 0;"><strong>Invalid Format:</strong> The guest scanned a random QR code instead of the event ticket.</li>
-            </ul>
+        <div class="flow-arrow">↓</div>
+
+        <!-- STEP 4: Emergency Sheet -->
+        <div class="step-card red-card">
+            <div class="step-head">
+                <span class="step-badge badge-red">STEP 4 · LAST RESORT</span>
+                <div class="step-info">
+                    <div class="step-title">🚨 Master Registration Sheet</div>
+                    <div class="emergency-warning">
+                        <strong>⚠️ EMERGENCY BACKUP ONLY.</strong> Do <strong>NOT</strong> access this unless all other methods have failed and you have received explicit authorization from <strong>Sean</strong> or the <strong>Vice President</strong>.
+                    </div>
+                    <a href="https://docs.google.com/spreadsheets/d/1Yf1RT7czz89Q5FemouOCp8bsBkX0dR7uorhlFzmD6Rw/edit"
+                       target="_blank" class="btn-primary btn-red-muted">
+                        🔒 Open Master Sheet (Authorized Only) ↗
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- WhatsApp Message -->
+        <div class="section-label">💬 Send to Your Team</div>
+
+        <div class="wa-card">
+            <div class="wa-header">
+                <span class="wa-icon">📲</span>
+                <div>
+                    <div class="wa-title">WhatsApp Message Draft</div>
+                    <div class="wa-subtitle">Copy and paste into the head table group</div>
+                </div>
+            </div>
+            <div class="wa-preview" id="wa-msg">Hey team! 👋 Here's the check-in process for tonight. Please follow this *exact order*:
+
+1️⃣ *QR Scanner (Primary)* – If the guest has a QR code, scan it with the scanner app.
+🔗 https://rotaract-scanner-web.vercel.app
+
+2️⃣ *App Script Tool (Secondary)* – No QR code? Search by name or phone, and manually check in or undo.
+🔗 https://script.google.com/macros/s/AKfycbweBr0dhRkexJVMbahGBhOUB_iZkznrUGCC13ynlDq3Mbtp5r8XMIP5AnoYvdzzOEx-sg/exec
+
+3️⃣ *Walk-In Registration* – Guest not registered at all? Show them the walk-in QR on the guide page so they can sign up on the spot.
+
+4️⃣ *Master Sheet (🚨 LAST RESORT ONLY)* – Only open with explicit approval from Sean or the VP.
+
+📋 Full guide with all links:
+🔗 https://rotaract-scanner-web.vercel.app/guide.html</div>
+            <button class="btn-copy" id="copy-btn" onclick="copyMessage()">
+                <span id="copy-icon">📋</span>
+                <span id="copy-text">Copy Message</span>
+            </button>
         </div>
 
     </div>
+
+    <script>
+        function copyMessage() {
+            const msg = document.getElementById('wa-msg').innerText;
+            const btn = document.getElementById('copy-btn');
+            const icon = document.getElementById('copy-icon');
+            const text = document.getElementById('copy-text');
+
+            navigator.clipboard.writeText(msg).then(() => {
+                btn.classList.add('copied');
+                icon.innerText = '✅';
+                text.innerText = 'Copied!';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    icon.innerText = '📋';
+                    text.innerText = 'Copy Message';
+                }, 2500);
+            }).catch(() => {
+                // Fallback for older browsers / non-HTTPS contexts
+                const ta = document.createElement('textarea');
+                ta.value = msg;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                btn.classList.add('copied');
+                icon.innerText = '✅';
+                text.innerText = 'Copied!';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    icon.innerText = '📋';
+                    text.innerText = 'Copy Message';
+                }, 2500);
+            });
+        }
+    </script>
 
 </body>
 </html>
